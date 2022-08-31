@@ -1,0 +1,1380 @@
+% !TEX TS-program = pdflatex --shell-escape
+%\documentclass[handout]{beamer} %slides+notes only
+%\documentclass[10pt,t]{beamer} %slides only
+
+% The laulatex is being updated. The following RequirePackage line is needed for now.
+
+\documentclass{beamer}
+\RequirePackage{luatex85}
+%% uncomment the following to get the notes shows on interleaved pages
+%\setbeameroption{show notes}
+%\setbeamertemplate{note page}[plain]
+
+\usepackage{pgfpages}
+%\pgfpagesuselayout{2 on 1}[letterpaper,border shrink=2mm]
+
+\usepackage{moresize}
+%\setbeameroption{show notes}
+%\setbeameroption{show notes on second screen}
+%%%\setbeamertemplate{note page}[plain]
+%
+% lualatex --shell-escape 23July2015.tex
+
+%
+% Code for making handouts
+%
+%\documentclass[handout,dvips,11pt,gray]{beamer}
+%\usetheme[secheader]{Boadilla}
+%\setbeameroption{show notes}
+%\usefonttheme[onlylarge]{structurebold}
+%\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+%\setbeamertemplate{navigation symbols}{}
+%\setbeamertemplate{note page}[plain]
+%\usepackage[english]{babel}
+%\usepackage[latin1]{inputenc}
+%\usepackage{times}
+%\usepackage[T1]{fontenc}
+%\usepackage{pst-all} % PStricks
+%%%\usepackage{pgfpages}
+%\pgfpagesuselayout{4 on 1}[letterpaper,landscape,border shrink=5mm]
+
+%\useoutertheme{miniframes}
+
+\usetheme{default}
+\beamertemplatenavigationsymbolsempty
+\hypersetup{pdfpagemode=UseNone} % don't show bookmarks on initial view
+
+%tables
+\usepackage{booktabs}% http://ctan.org/pkg/booktabs
+
+% font
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{minted}
+%\usepackage{comment}
+
+\usepackage{fix-cm}
+\usepackage{fontspec}
+\usepackage{gensymb}
+%\usepackage{graphicx}
+\newminted{python}{fontsize=\nornalsize, 
+                   linenos=true,
+                   numbersep=8pt,
+                   gobble=4,
+                   frame=lines,
+                   bgcolor=bgpython,
+                   framesep=3mm}
+ 
+ \newminted{bash}{fontsize=\nornalsize, 
+                   linenos=true,
+                   numbersep=8pt,
+                   gobble=4,
+                   frame=lines,
+                   bgcolor=bgbash,
+                   framesep=3mm}
+
+\newminted{R}{fontsize=\nornalsize, 
+                   linenos=true,
+                   numbersep=8pt,
+                   gobble=4,
+                   frame=lines,
+                   bgcolor=bgr,
+                   framesep=3mm}
+                  
+\setsansfont{TeX Gyre Heros}
+\setbeamerfont{note page}{family*=pplx,size=\footnotesize} % Palatino for notes
+% "TeX Gyre Heros can be used as a replacement for Helvetica"
+% In Unix, unzip the following into ~/.fonts
+% In Mac, unzip it, double-click the .otf files, and install using "FontBook"
+%   http://www.gust.org.pl/projects/e-foundry/tex-gyre/heros/qhv2.004otf.zip
+
+% Center the title and increase its size
+\setbeamertemplate{frametitle}[default][center]
+\setbeamerfont{frametitle}{size=\huge}
+
+
+% named colors
+\definecolor{offwhite}{RGB}{249,242,255}
+\definecolor{foreground}{RGB}{25,25,25}
+\definecolor{background}{RGB}{255,255,255}
+\definecolor{title}{RGB}{100,0,0}
+\definecolor{gray}{RGB}{155,155,155}
+\definecolor{subtitle}{RGB}{50,0,0}
+\definecolor{hilight}{RGB}{102,255,204}
+\definecolor{vhilight}{RGB}{255,111,207}
+\definecolor{lolight}{RGB}{155,155,155}
+%\definecolor{green}{RGB}{125,250,125}
+
+% use those colors
+\setbeamercolor{titlelike}{fg=title}
+\setbeamercolor{subtitle}{fg=subtitle}
+\setbeamercolor{institute}{fg=gray}
+\setbeamercolor{normal text}{fg=foreground,bg=background}
+\setbeamercolor{item}{fg=foreground} % color of bullets
+\setbeamercolor{subitem}{fg=gray}
+\setbeamercolor{itemize/enumerate subbody}{fg=gray}
+\setbeamertemplate{itemize subitem}{{\textendash}}
+\setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}
+\setbeamerfont{itemize/enumerate subitem}{size=\footnotesize}
+
+% page number
+\setbeamertemplate{footline}{%
+    \raisebox{5pt}{\makebox[\paperwidth]{\hfill\makebox[20pt]{\color{gray}
+          \scriptsize\insertframenumber}}}\hspace*{5pt}}
+
+% add a bit of space at the top of the notes page
+\addtobeamertemplate{note page}{\setlength{\parskip}{12pt}}
+
+% a few macros
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\ig}{\includegraphics}
+\newcommand{\subt}[1]{{\footnotesize \color{subtitle} {#1}}}
+
+\definecolor{bgpython}{rgb}{0.95,0.95,0.95}
+\definecolor{bgbash}{rgb}{0.95,0.85,0.75}
+\definecolor{bgr}{rgb}{0.95,0.95,0.85}
+
+\usepackage{enumitem}
+
+\usepackage{latexsym} % for squares for the check-list environment
+\newenvironment{checklist}{%
+  \begin{list}{}{}% whatever you want the list to be
+  \let\olditem\item
+  \renewcommand\item{\olditem[$\Box$] }
+}{%
+  \end{list}
+}
+
+\usepackage{graphicx}
+\newcommand{\heart}{\ensuremath\heartsuit}
+
+% title info
+\title{Document preparation with \LaTeX{} in Emacs} 
+\author{\textbf{Blaine Mooers, PhD \\ blaine-mooers@ouhsc.edu \\ 405-271-8300 \\ \url{https://github.com/MooersLab/BerlinEmacsAug22} }}
+\institute{{Department of Biochemistry \& Molecular Biology}\\[2pt]{University of Oklahoma Health Sciences Center, \\ Oklahoma City, Oklahoma, USA} }
+% to hide auto date,use \date{}
+\date{Berlin Emacs Meetup, Zoom Meeting\\  31 August 2022, 19 - 20:30 (CEST)}
+\begin{document}
+
+% title slide
+{
+\setbeamertemplate{footline}{} % no page number here
+\frame{
+  \titlepage
+  \note{
+
+} } }
+
+
+
+% Slide 2
+\subsection{40 to 51 hours per week}
+\begin{frame}
+\frametitle{40 to 51 hours per week}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.95\textwidth, angle=0]{./Figures/increase22percent}
+\end{center}
+\end{center}
+\end{frame}
+\note{After entering C-c C-o in Emacs, you are prompted to enter kind of environment. One option }
+
+% \section{How I use Emacs to edit LaTeX Documents}
+
+% - Writing projects on Overleaf
+% - Copying tex from 750words to tex files in Overleaf
+% - GhostText in Overleaf
+% - GhostText in 750words
+% - notable snippets
+
+% Slide 2
+\section{Outline}
+\begin{frame}
+\frametitle{Outline}
+\begin{center}
+\begin{Large}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item \LaTeX{} in Emacs
+%\item Elements of a \LaTeX{} document
+\item Research Papers with writing logs
+\item Books
+\item Beamer: Slideshows and Posters
+\item Tools
+\end{itemize}
+\end{Large}
+\end{center}
+%\textcolor{magenta}{Tasks that I still do with a word processor.}
+\end{frame}
+\note{}
+
+\subsection{Writing tasks in academic science}
+\begin{frame}
+\frametitle{Writing tasks in academic science}
+\begin{center}
+\begin{Large}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item correspondence: \textcolor{magenta}{e-mails}, letters of support and recommendation
+\item grant funding: \textcolor{magenta}{applications}, progress reports, grant reviews
+\item research reporting: papers, posters, talks, manuscript reviews
+\item teaching: lecture slides
+\item administrative: \textcolor{magenta}{annual reports, committee reports, Biosketches,} CVs
+\end{itemize}
+\end{Large}
+\end{center}
+\textcolor{magenta}{Tasks that I still do with a word processor.}
+\end{frame}
+
+
+
+% \section{Introduction}
+% % Slide 2
+% \subsection{(1/2) Writing tasks in academic science}
+% \begin{frame}
+% \frametitle{(1/2) My writing tasks}
+% \begin{center}
+% \begin{Large}
+% \begin{itemize}[font=$\bullet$\scshape\bfseries]
+% \item Daily log book.
+% \item Protocols.
+% \item Grant proposals, \textcolor{magenta}{Biosketches}, Letters of support, budget justification, and \textcolor{magenta}{budgets}.
+% \item \textcolor{magenta}{Annual progress reports for grants}
+% \item Research papers and review articles
+% \item Book chapters and books
+% \item Slideshows for lectures; homework and exams
+% \end{itemize}
+% \end{Large}
+% \end{center}
+% \textcolor{magenta}{Tasks that I still do with a word processor.}
+% \end{frame}
+% \note{}
+
+
+% \subsection{(2/2) My writing tasks}
+% \begin{frame}
+% \frametitle{(2/2) My writing tasks}
+% \begin{center}
+% \begin{Large}
+% \begin{itemize}[font=$\bullet$\scshape\bfseries]
+% \item Abstracts of talks and posters at Scientific Meetings
+% \item Manuscript reviews
+% \item Grant application reviews
+% \item Letters of recommendation for students and colleagues
+% \item Readme.md files on GitHub
+% \item \textcolor{magenta}{Annual evaluation reports};  \textcolor{magenta}{promotion dossiers}.
+% \item CVs of various lengths
+% \end{itemize}
+% \end{Large}
+% \end{center}
+% \textcolor{magenta}{Tasks that I still do with a word processor.}
+% \end{frame}
+% \note{}
+
+% Slide 2
+\subsection{Dissatisfaction with Word Processors}
+\begin{frame}
+\frametitle{Dissatisfaction with Word Processors}
+\begin{center}
+\begin{Large}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item Trouble scrolling long documents on Macs.
+\item Tedious figure handing.
+\item Limited equation editor.
+\item Poor support for tracking changes.
+\end{itemize}
+\end{Large}
+\end{center}
+\end{frame}
+\note{}
+
+
+% % Slide 2
+% \subsection{(1/2) Downsides of Word Processors}
+% \begin{frame}
+% \frametitle{(1/2) Downsides of Word Processors}
+% \begin{center}
+% \begin{Large}
+% \begin{itemize}[font=$\bullet$\scshape\bfseries]
+% \item Trouble scrolling long documents.
+
+
+% \item Poor support for the assembly of large documents.
+% \item Heavy dependence on the mouse (not ergonomic).
+% \item Poor support for version control.
+% \item Limited scripting available
+% \item Limited support for snippets.
+% \item Limited support for autocompletion.
+% \end{itemize}
+% \end{Large}
+% \end{center}
+% \end{frame}
+% \note{}
+
+
+% \subsection{(2/2) Downsides of Word Processors}
+% \begin{frame}
+% \frametitle{(2/2) Downsides of Word Processors}
+% \begin{center}
+% \begin{Large}
+% \begin{itemize}[font=$\bullet$\scshape\bfseries]
+% \item Tedious figure handing.
+% \item Limited support for complex tables.
+% \item Limited support for syntax highlighting of code blocks.
+% \item Limited number of key-bindings.
+% \item Limited support for customization.
+% \item Inferior equation typesetting
+% \item Font issues when moving between operating systems.
+% \end{itemize}
+% \end{Large}
+% \end{center}
+% \end{frame}
+% \note{}
+
+
+
+% Slide 2
+\subsection{Winding path to Emacs with \LaTeX}
+\begin{frame}
+\frametitle{Winding path to Emacs with \LaTeX}
+\begin{center}
+\begin{Large}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item Markdown, RMarkdown, GitHub Book
+\item AsciiDoc
+\item Scrivener
+\item LyX
+\item LaTeX in several LaTeX editors and IDE \textcolor{red}{\heart}.
+\item LaTeX in TextMate
+\item LaTeX in Sublime Text.
+\item LaTeX in Vim
+\item LaTeX in Overleaf \textcolor{red}{\heart \heart}
+\item reStructuredText and org-mode \textcolor{red}{\heart}
+\item LaTeX in Emacs.\textcolor{red}{\heart \heart}
+\end{itemize}
+\end{Large}
+\end{center}
+\end{frame}
+\note{}
+
+
+% Slide 2
+\subsection{606 Overleaf Projects}
+\begin{frame}
+\frametitle{606 Overleaf Projects}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.995\textwidth, angle=0]{./Figures/overleafProjects}
+\end{center}
+\end{center}
+\end{frame}
+\note{After entering C-c C-o in Emacs, you are prompted to enter kind of environment. One option }
+
+
+% Slide 2
+\subsection{Overleaf GUI with this slideshow}
+\begin{frame}
+\frametitle{Overleaf GUI with this slideshow}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/overLeafWorkArea}
+\end{center}
+\end{center}
+\end{frame}
+\note{After entering C-c C-o in Emacs, you are prompted to enter kind of environment. One option }
+
+
+% Slide 2
+\subsection{My uses of \LaTeX}
+\begin{frame}
+\frametitle{My uses of \LaTeX }
+\begin{center}
+\begin{Large}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item Mooers (2016) Protein Science
+\item Mooers (2020) Protein Science
+\item Mooers and Brown (2021) Protein Science
+\item Mooers (2021) Computing in Science and Engineering.
+\item Acquah et al. (2021) International Journal of Molecular Science
+\item Acquah (2022) PhD dissertation
+\item 14 lectures times 8 years
+\item $\sim$50 slideshows
+\item $\sim$20 posters
+\end{itemize}
+\end{Large}
+\end{center}
+\end{frame}
+\note{To establish my credibilitiy. }
+
+
+% Slide 2
+\subsection{ Advantages of \LaTeX}
+\begin{frame}
+\frametitle{Advantages of working with \LaTeX}
+\begin{center}
+\begin{Large}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item \textcolor{magenta}{It is fun!} Combine coding with writing.
+%\item Code reuse: recycle old documents.
+%\item Precise control over appearance of output.
+\item Equation typesetting par excellence.
+\item Automated placement of figures.
+% \item Syntax highlighting of code fragments.
+% \item Reduced use of the mouse.
+% \item Slideshows as PDFs are immune to embarassing font issues.
+\item Support for multi-part documents (books).
+% \item Precise control over typesetting of the bibliography.
+% \item Automated assembly of table of contents and lists.
+% \item Automated index generation \textcolor{red}{\heart}. 
+% \item Source files easy to share as e-mail attachments.
+% \item Source files can be put under version control.
+\item Overleaf supports collaborative writing.
+\end{itemize}
+\end{Large}
+\end{center}
+\end{frame}
+\note{}
+
+
+% Slide 2
+\subsection{Downsides of \LaTeX}
+\begin{frame}
+\frametitle{Downsides of \LaTeX }
+\begin{center}
+\begin{Large}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item Only for 2\% of the population.
+%\item Only a few colleagues use it in my field.
+\item Some packages only work with certain compilers (e.g., xelatex).
+\item Sometimes difficult to debug.
+\item Some publishers limit customization.
+%\item Publisher staff can lack knowledge of \LaTeX.
+\end{itemize}
+\end{Large}
+\end{center}
+\end{frame}
+\note{}
+
+
+\section{Elements of a LaTeX document}
+\begin{frame}
+\frametitle{Elements of a LaTeX document}
+\begin{center}
+\begin{Large}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+ \item preamble ($\sim$ init.el)
+ \item document environment
+ \begin{checklist}
+ \item sections, subsection, subsubsections
+ \item equations
+ \item code listings
+ \item tables
+ \item figures
+ \item citations
+\end{checklist}
+\end{itemize}
+\end{Large}
+\end{center}
+\end{frame}
+\note{}
+
+
+% Slide 2
+\subsection{C-c C-e Document environment}
+\begin{frame}
+\frametitle{C-c C-e document environment}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/documentA}
+\end{center}
+
+\end{center}
+\end{frame}
+\note{After entering C-c C-e in Emacs, you are prompted to enter kind of environment. One option }
+
+
+% Slide 2
+\subsection{Adding package names at prompt in mini-buffer}
+\begin{frame}
+\frametitle{Adding package name in mini-buffer}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.9998\textwidth, angle=0]{./Figures/documentB}
+\end{center}
+\end{center}
+\end{frame}
+\note{After entering C-c C-o in Emacs, you are prompted to enter kind of environment. One option }
+
+
+% Slide 2
+\subsection{Package with options}
+\begin{frame}
+\frametitle{Package with options}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.9975\textwidth, angle=0]{./Figures/geometry0}
+\end{center}
+\end{center}
+\end{frame}
+\note{After entering C-c C-o in Emacs, you are prompted to enter kind of environment. One option }
+
+
+% Slide 2
+\subsection{Options for geometry package}
+\begin{frame}
+\frametitle{Options for geometry package}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.9975\textwidth, angle=0]{./Figures/geometry1}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{After entering C-c C-o in Emacs, you are prompted to enter kind of environment. One option }
+
+
+% Slide 2
+\subsection{Package with options}
+\begin{frame}
+\frametitle{Package with options}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.9975\textwidth, angle=0]{./Figures/geometry2}
+\end{center}
+\end{center}
+\end{frame}
+\note{After entering C-c C-o in Emacs, you are prompted to enter kind of environment. One option }
+
+
+% Slide 2
+\subsection{C-c C-e Document environment}
+\begin{frame}
+\frametitle{Document environment}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.995\textwidth, angle=0]{./Figures/geometry4}
+\end{center}
+\end{center}
+\end{frame}
+\note{After entering C-c C-o in Emacs, you are prompted to enter kind of environment. One option }
+
+
+% Slide 2
+\subsection{Custom \LaTeX{} Commands}
+\begin{frame}
+\frametitle{Custom \LaTeX{} Commands}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.995\textwidth, angle=0]{./Figures/customLaTeXCommands}
+\end{center}
+\end{center}
+\end{frame}
+\note{After entering C-c C-o in Emacs, you are prompted to enter kind of environment. One option }
+
+
+% Slide 2
+\subsection{Folded sections of writing log}
+\begin{frame}
+\frametitle{Folded sections of writing log}
+C-c C-o C-b
+\begin{center}
+    \includegraphics[width=0.85\textwidth, angle=0]{./Figures/writingLogSections}
+\end{center}
+\end{frame}
+\note{ }
+
+
+% Slide 2
+\subsection{Unfolded section}
+\begin{frame}
+\frametitle{Unfolded section}
+C-c C-o r \\
+or \\
+C-c C-o C-o \\
+\begin{center}
+    \includegraphics[width=0.85\textwidth, angle=0]{./Figures/unfoldOneSection}
+\end{center}
+\end{frame}
+\note{After entering C-c C-o in Emacs, you are prompted to enter kind of environment. One option }
+
+
+% Slide 2
+\subsection{C-c = generates TOC}
+\begin{frame}
+\frametitle{C-c = generates TOC}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/TOC}
+\end{center}
+\end{frame}
+\note{}
+
+
+
+
+
+% Slide 2
+\subsection{C-c C-j inserts next \\item}
+\begin{frame}
+\frametitle{C-c C-j inserts next item}
+\begin{center}
+    \includegraphics[width=0.75\textwidth, angle=0]{./Figures/itemCcCj}
+\end{center}
+Template writing.log on GitHub \footnote{\url{}}.
+\end{frame}
+\note{}
+
+
+% Slide 2
+\subsection{Plot of words written}
+\begin{frame}
+\frametitle{Plot of words written}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.75\textwidth, angle=0]{./Figures/wordCountPlot}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{}
+
+
+% Slide 2
+\subsection{Float environment for figure}
+\begin{frame}
+\frametitle{Float environment for figure}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.95\textwidth, angle=0]{./Figures/figCodeWCplot}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{}
+
+
+% Slide 2
+\subsection{External data file}
+\begin{frame}
+\frametitle{External data file}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.75\textwidth, angle=0]{./Figures/wordCountTxt}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{}
+
+
+% Slide 2
+\subsection{Code for pgfplot and table}
+\begin{frame}
+\frametitle{Code for pgfplot and table}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.95\textwidth, angle=0]{./Figures/pgftablePreambleCode}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{}
+
+
+\subsection{Rendered table}
+\begin{frame}
+\frametitle{Rendered table}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.35\textwidth, angle=0]{./Figures/wcTable}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{}
+
+
+\subsection{Table environment for pdfplotstable}
+\begin{frame}
+\frametitle{Table environment for pdfplotstable}
+\begin{center}
+    \includegraphics[width=0.9985\textwidth, angle=0]{./Figures/pgfplotstableEnv}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{frame}
+\note{}
+
+\subsection{Code for default table environment}
+\begin{frame}
+\frametitle{Code for default table environment}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/codeDefaultTable}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{frame}
+\note{}
+
+
+\subsection{Rendered default table}
+\begin{frame}
+\frametitle{Rendered default table}
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{lcl}
+       \hline
+       Date & Day & Words \\ 
+       \hline
+        20210916 & 1 & 1,148  \\
+        20211017 & 2 & 3,267 \\
+       \hline    
+    \end{tabular}
+    \caption{\ref{tab:simpleTable}. Sample table in default format. }
+    \label{tab:simpleTable}
+\end{table}
+\end{frame}
+\note{}
+
+
+\subsection{mol2chemfig and chemfig packages}
+\begin{frame}
+\frametitle{mol2chemfig and chemfig packages}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/table2final}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{frame}
+\note{}
+
+
+\subsection{Code for previous table}
+\begin{frame}
+\frametitle{Code for previous table}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/table2code}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{frame}
+\note{}
+
+
+
+
+
+
+
+
+% Slide 2
+\subsection{Placing urls in footnotes}
+\begin{frame}
+\frametitle{Placing urls in footnotes}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.995\textwidth, angle=0]{./Figures/furl}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{I have trouble with long urls. They need to stick out into the margins of the page. I solved this problems by putting urls into footnotes. To ease doing so, I enter the tab trigger furl and then the cursor will sit on the default value http. I paste the url over http.}
+
+% Slide 2
+\subsection{Annotated bibliography}
+\begin{frame}
+\frametitle{Annotated bibliography}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.95\textwidth, angle=0]{./Figures/Annotated}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{My writing projects have the main document and associated files and directories, the writing log, and an annotated bibliography. The latter is largely aspirational because there is never enough time to finish one. Nonetheless, these are useful when venturing into a new area.  }
+
+
+% Slide 2
+\subsection{Annote field in BibTeX entry}
+\begin{frame}
+\frametitle{Annote field in BibTeX entry}
+\begin{center}
+\begin{center}
+    \includegraphics[width=1.5\textwidth, angle=0]{./Figures/annoteField}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{  }
+
+
+% Slide 2
+\subsection{mainAnnote.tex file}
+\begin{frame}
+\frametitle{mainAnnote.tex file}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/mainAnnote}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{  }
+
+
+% Slide 2
+\subsection{Multi-line equation}
+\begin{frame}
+\frametitle{Multi-line equation}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/equationCode}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{}
+
+
+
+
+% Slide 2
+\subsection{C-c C-p C-s Preview for section}
+\begin{frame}
+\frametitle{C-c C-p C-s Preview for section}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/EquationPreview}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{}
+
+
+% Slide 2
+\subsection{C-c C-a; compile and view}
+\begin{frame}
+\frametitle{C-c C-a  compile and view}
+\begin{center}
+\begin{center}
+    \includegraphics[width=1.5\textwidth, angle=0]{./Figures/renderedEquation}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{PDF opened in my default browser.}
+
+
+% Slide 2
+\subsection{eqc snippet}
+\begin{frame}
+\frametitle{eqc snippet}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/eqc}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{PDF opened in my default browser.}
+
+
+% Slide 2
+\subsection{Equation float with caption}
+\begin{frame}
+\frametitle{Equation float with caption}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/codeBayesLinear}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{PDF opened in my default browser.}
+
+
+% Slide 2
+\subsection{Rendered equation float with caption}
+\begin{frame}
+\frametitle{Rendered equation float with caption}
+\begin{center}
+\begin{center}
+    \includegraphics[width=1.4\textwidth, angle=0]{./Figures/renderedBayesLinear}
+\end{center}
+%Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{PDF opened in my default browser.}
+
+
+
+
+% % Slide 2
+% \subsubsection{Section environments}
+% \begin{frame}
+% \frametitle{Section environments}
+% \begin{center}
+% \begin{center}
+%     \includegraphics[width=0.5\textwidth, angle=0]{./Figures/writingLogOutline}
+% \end{center}
+% Template writing.log on GitHub \footnote{\url{}}.
+% \end{center}
+% \end{frame}
+% \note{}
+
+
+% % Slide 2
+% \subsubsection{List environments}
+% \begin{frame}
+% \frametitle{Table environments}
+% \begin{center}
+% \begin{center}
+%     \includegraphics[width=0.5\textwidth, angle=0]{./Figures/writingLogOutline}
+% \end{center}
+% Template writing.log on GitHub \footnote{\url{}}.
+% \end{center}
+% \end{frame}
+% \note{}
+
+
+
+
+
+
+
+% Slide 2
+\subsection{Code environments}
+\begin{frame}
+\frametitle{Code environments}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/mintedStan}
+\end{center}
+\end{center}
+\end{frame}
+\note{
+The famous minted package by Geoffry Poore can be used to syntax highlighting or font locking in 
+Emacs parlance. 
+This requires configuration that enables the use of the -shell-escape when compiling the tex file.
+Access to snippets from a language other than LaTeX requires expanding the scope of the LaTeX-mode to include say.
+My code env that enables the use of indices and the labels.
+}
+
+
+
+
+% % Slide 2
+% \subsection{Special Symbols}
+% \begin{frame}
+% \frametitle{Special Symbols}
+% \begin{center}
+% \begin{center}
+%     \includegraphics[width=0.5\textwidth, angle=0]{./Figures/writingLogOutline}
+% \end{center}
+% Template writing.log on GitHub \footnote{\url{}}.
+% \end{center}
+% \end{frame}
+% \note{}
+
+
+\subsection{AUCTeX key-bindings?}
+\begin{frame}
+\frametitle{AUCTeX key-bindings?}
+\begin{center}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item C-c C-e ---> environments
+\item C-c C-s ---> sections
+\item C-c C-a ---> compile and view document.
+\item C-c ` ---> go to errors.
+\item C-c C-p C-s --> Preview regions.
+\item C-c C-p C-c C-s ---> Remove preview of region.
+\item C-c C-k ---> Kill processsing.
+\item C-c ; ---> comment out region
+\item M-x tex-validate-buffer.
+\end{itemize}
+\end{center}
+\end{frame}
+\note{}
+
+\subsection{Overleaf Pros and Cons}
+\begin{frame}
+\frametitle{Overleaf Pros and Cons}
+\begin{Large}
+\begin{center}
+Overleaf Pros
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item One mouse click to compile.
+\item Collaborative writing support.
+\item File outline.
+\item Store all writing projects on one site.
+\item Vim or Emacs key bindings.
+\item GhostView and Writefull.
+\item Some autocompletion.
+\end{itemize}
+Overleaf Cons
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item Error messages more verbose.
+\item No macros.
+\item No snippets.
+\item No previews.
+\end{itemize}
+\end{center}
+\end{Large}
+\end{frame}
+\note{}
+
+
+% Slide 
+\subsection{GhostText enables Emacs in Overleaf}
+\begin{frame}
+\frametitle{GhostText enables Emacs in Overleaf}
+\begin{center}
+    \includegraphics[width=0.99\textwidth, angle=0]{./Figures/GhostTextEmacsOverleaf}
+\end{center}
+Brings snippets to Overleaf!
+\end{frame}
+\note{.}
+
+
+% Slide 
+\subsection{GhostText is available for popular text editors}
+\begin{frame}
+\frametitle{Available for popular text editors}
+\begin{center}
+    \includegraphics[width=0.55\textwidth, angle=0]{./Figures/GhostTextInstall}
+\end{center}
+GhostText works in code blocks in Jupyter Notebooks and Tex files in Jupyter Lab. Also works in Overleaf. See presentation ``Edit live Jupyter notebooks from the comfort of your favorite text editor'' about GhostText at the Oklahoma Data Science Workshop  \footnote{\url{https://mediasite.ouhsc.edu/Mediasite/Channel/python/watch/4da0872f028c4255ae12935655e911321d}}.
+\end{frame}
+\note{.}
+
+
+\section{Book document}
+\begin{frame}
+\frametitle{Book document}
+\begin{center}
+\begin{itemize}
+\item main.tex file
+\item preamble.tex
+\item \url{./Content/0AAAcontents.tex}
+\item \url{./Content/Appendices}
+\item style file
+\item global.bib
+\item glossary.tex
+\item acronyms.tex
+\item epigraphs.tex
+\end{itemize}
+\end{center}
+\end{frame}
+
+
+% Slide 2
+\subsection{main.tex file}
+\begin{frame}
+\frametitle{main.tex file}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.995\textwidth, angle=0]{./Figures/main}
+\end{center}
+Template writing.log on GitHub \footnote{\url{}}.
+\end{center}
+\end{frame}
+\note{}
+
+
+% Slide 2
+\subsection{0AAAcontents.tex and TOC}
+\begin{frame}
+\frametitle{0AAAcontents.tex}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.85\textwidth, angle=0]{./Figures/head0AAAcontent}
+\end{center}
+\end{center}
+\end{frame}
+\note{}
+
+% Slide 2
+\subsection{Chapters}
+\begin{frame}
+\frametitle{Chapters}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.995\textwidth, angle=0]{./Figures/chapterHead}
+\end{center}
+\end{center}
+\end{frame}
+\note{}
+
+
+% % Slide 2
+% \subsection{Parts}
+% \begin{frame}
+% \frametitle{Parts}
+% \begin{center}
+% \begin{center}
+%     \includegraphics[width=0.5\textwidth, angle=0]{./Figures/writingLogOutline}
+% \end{center}
+% \end{center}
+% \end{frame}
+% \note{}
+
+% % Slide 2
+% \subsection{Appendices}
+% \begin{frame}
+% \frametitle{Appendices}
+% \begin{center}
+% \begin{center}
+%     \includegraphics[width=0.5\textwidth, angle=0]{./Figures/writingLogOutline}
+% \end{center}
+% \end{center}
+% \end{frame}
+% \note{}
+
+
+% % Slide 2
+% \subsection{Indices}
+% \begin{frame}
+% \frametitle{Indices}
+% \begin{center}
+% \begin{center}
+%     \includegraphics[width=0.5\textwidth, angle=0]{./Figures/writingLogOutline}
+% \end{center}
+% \end{center}
+% \end{frame}
+% \note{}
+
+
+% Slide 2
+\subsection{List of acronyms}
+\begin{frame}
+\frametitle{}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.9\textwidth, angle=0]{./Figures/acronyms}
+\end{center}
+\end{center}
+\end{frame}
+\note{
+The famous minted package by Geoffry Poore can be used to syntax highlighting or font locking in 
+Emacs parlance. 
+This requires configuration that enables the use of the -shell-escape when compiling the tex file.
+Access to snippets from a language other than LaTeX requires expanding the scope of the LaTeX-mode to include say.
+My code env that enables the use of indices and the labels.
+}
+
+
+% Slide 2
+\subsection{List of Figures}
+\begin{frame}
+\frametitle{}
+\begin{center}
+\begin{center}
+    \includegraphics[width=0.9\textwidth, angle=0]{./Figures/ListFigures}
+\end{center}
+\end{center}
+\end{frame}
+
+
+
+
+% % Slide 2
+% \subsection{Glossaries}
+% \begin{frame}
+% \frametitle{Glossaries}
+% \begin{center}
+% \begin{center}
+%     \includegraphics[width=0.5\textwidth, angle=0]{./Figures/writingLogOutline}
+% \end{center}
+% \end{center}
+% \end{frame}
+% \note{}
+
+\section{Beamer slideshows}
+\subsection{Beamer frame}
+\begin{frame}
+\frametitle{Beamer frames}
+\begin{center}
+    \includegraphics[width=0.995\textwidth, angle=0]{./Figures/beamerFrame}
+\end{center}
+\end{frame}
+\note{}
+
+
+\subsection{Title frame}
+\begin{frame}
+\frametitle{Title frame}
+\begin{center}
+    \includegraphics[width=0.995\textwidth, angle=0]{./Figures/titleFrame}
+\end{center}
+\end{frame}
+\note{}
+
+
+\subsection{Beamer code blocks}
+\begin{frame}
+\frametitle{Beamer code blocks}
+\begin{center}
+    \includegraphics[width=0.995\textwidth, angle=0]{./Figures/CodeBlock}
+\end{center}
+\end{frame}
+\note{}
+
+\subsection{actual Beamer code block}
+\defverbatim[colored]\exampleCodeC{
+\large{
+\begin{pythoncode}
+    #+BEGIN_SRC emacs-lisp :results value scalar
+    (* 40 1000 1000 1000 1000 1000 1000 1000)
+    #+END_SRC
+    #+RESULTS:
+    : 40000000000000000000
+\end{pythoncode}
+}
+}
+% Slide 24
+\begin{frame}
+\frametitle{Code block with output in the RESULTS drawer}
+Place cursor inside code block and enter C-c C-c to run the code.
+\exampleCodeC
+Note that the ``:results value scalar'' was needed with emacs-lisp.
+In the org-babel configuration, emacs-lisp has to be in the list of languages.
+\end{frame}
+
+\subsection{betterposter documentclass}
+\begin{frame}
+\frametitle{betterposter documentclass}
+\begin{center}
+    \includegraphics[width=0.9\textwidth, angle=0]{./Figures/betterPoster}
+\end{center}
+\footnotesize{\url{https://github.com/rafaelbailo/betterposter-latex-template}}
+\end{frame}
+\note{}
+
+\subsection{(1/2) beamerposter package}
+\begin{frame}
+\frametitle{ (1/2) beamerposter package}
+\begin{center}
+    \includegraphics[width=0.9\textwidth, angle=0]{./Figures/beamerposterTop}
+\end{center}
+\end{frame}
+\note{Still the beamer documentclass.}
+
+\subsection{(2/2) beamerposter}
+\begin{frame}
+\frametitle{(2/2) beamerposter package}
+\begin{center}
+    \includegraphics[width=0.9\textwidth, angle=0]{./Figures/beamerposterBottom}
+\end{center}
+\end{frame}
+\note{}
+
+
+
+
+\section{Learning aids}
+\begin{frame}
+\frametitle{Learning aids}
+\begin{center}
+\begin{Large}
+ \url{https://github.com/MooersLab}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item Latex-emacs init.el 
+\item Business letter template
+\item Writing.log template
+\item Annotated bibliography template
+\item PDF and tex file for this slideshow 
+\item Poster template  
+\item Book template
+\item Manuscript template
+\item LaTeX snippets
+\item Quizzes: auctex-mode and general
+\end{itemize}
+\end{Large}
+\end{center}
+\end{frame}
+\note{}
+
+
+
+
+% Slide 2
+\section{Sources of help with \LaTeX}
+\begin{frame}
+\frametitle{Sources of help with \LaTeX }
+\begin{center}
+\begin{Large}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item The error messages and documentation.
+\item Stack Exchange \textcolor{red}{\heart \heart}.
+\item Overleaf help pages \textcolor{red}{\heart \heart \heart} .
+\item Staff at Overleaf.
+\end{itemize}
+\end{Large}
+\end{center}
+\end{frame}
+\note{}
+
+
+% Slide 2
+\section{One path to mastery of \LaTeX}
+\begin{frame}
+\frametitle{One path to mastery of \LaTeX }
+\begin{center}
+\begin{Large}
+
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item Start with org or free account on Overleaf.
+\item Start with documents useful in your life.
+\item Slowly add the use of \LaTeX{} to your workflow.
+\item Then ease in use of AUCTeX.
+\item Maybe synch a version on Overleaf via git.
+\item Use GhostText with Overleaf and Emacs.
+\item Use yasnippets to pop in favorite boilerplate.
+\item If \LaTeX{} is too much for you, use org-mode.
+\end{itemize}
+\end{Large}
+\end{center}
+\end{frame}
+\note{Path depends on your prior knowledge.}
+
+
+% Slide 2
+\section{Potential elisp coding projects}
+\begin{frame}
+\frametitle{Potential elisp coding projects}
+\begin{center}
+\begin{Large}
+\emph{I know, make the table in org and export to LaTeX!}
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+\item Functions to convert tables from LaTeX to Markdown (pandoc?)
+\item Functions to convert tables from LaTeX to ReStructuredText
+\item Function to convert markdown table to LaTeX
+\item Function to convert ReStructuredText table to LaTeX
+\end{itemize}
+\end{Large}
+\end{center}
+\end{frame}
+\note{Path depends on your prior knowledge.}
+
+
+
+
+\section{Acknowledgements}
+\begin{frame}
+\frametitle{Acknowledgements}
+\Large{
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+    \item Oklahoma Data Science Workshop
+\end{itemize}
+\vspace{2mm}
+Funding:
+\begin{itemize}[font=$\bullet$\scshape\bfseries]
+%    \item Warren Delano Memorial Open-Source PyMOL Fellowship
+    \item NIH: R01 CA242845, R01 AI088011
+    \item NIH: P20 GM103640, P30 CA225520, \\P30 AG050911-07S1 
+    \item OCAST HR20-002
+    \item PHF Team Science Grant
+\end{itemize}
+}
+\end{frame}
+\note{
+I would like to thank feedback on this project from our local Data Science Workshop that meets once a month.
+I would also like to thank these funding sources that supported this work.
+}
+
+\end{document}
