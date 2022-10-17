@@ -18,3 +18,7 @@ See [latex-emacs repo](https://github.com/MooersLab/latex-emacs) to get the Emac
 - [Quizzes about Emacs to improve recall of keybindings](https://github.com/MooersLab/qemacs)
 - [Slides from talk about GhostText, Data Science Workshop, July 2022](https://github.com/MooersLab/DSW22ghosttext)
 - [Video link to talk about GhostText, Data Science Workshop, July 2022](https://mediasite.ouhsc.edu/Mediasite/Channel/python/watch/4da0872f028c4255ae12935655e911321d)
+
+## Recommended videos on LaTeX
+
+- [LaTeX playlist](https://www.youtube.com/watch?v=Jp0lPj2-DQA&list=PLHXZ9OQGMqxcWWkx2DMnQmj5os2X5ZR73) A series of high-energy presentations about LaTeX by the mathematician Dr. Trefor Bazett. He was commissioned by Overleaf to make these videos. He does a great job. I learned about some great packages in his video "My favorite packages ...", and I have been using LaTeX for almost a decade!
