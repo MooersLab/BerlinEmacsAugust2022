@@ -21,4 +21,4 @@ See [latex-emacs repo](https://github.com/MooersLab/latex-emacs) to get the Emac
 
 ## Recommended videos on LaTeX
 
-- [LaTeX playlist](https://www.youtube.com/watch?v=Jp0lPj2-DQA&list=PLHXZ9OQGMqxcWWkx2DMnQmj5os2X5ZR73) A series of high-energy presentations about LaTeX by the mathematician Dr. Trefor Bazett. He was commissioned by Overleaf to make these videos. He does a great job. I learned about some great packages in his video "My favorite packages ...", and I have been using LaTeX for almost a decade!
+- [LaTeX playlist](https://www.youtube.com/watch?v=Jp0lPj2-DQA&list=PLHXZ9OQGMqxcWWkx2DMnQmj5os2X5ZR73) A series of seven high-energy presentations about LaTeX by the mathematician Dr. Trefor Bazett. He was commissioned by Overleaf to make these videos. He does a great job. I learned about some new packages in his video "My favorite packages ...", and I have been using LaTeX for almost a decade!
