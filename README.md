@@ -1,6 +1,10 @@
+![Version](https://img.shields.io/static/v1?label=BerlinEmacsAugust2022&message=0.2&color=brightcolor)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+
 # Document preparation with LATEX in Emacs
 
-The PDF and tex source file for the 90-minute slideshow presented August 31, 2022 to the Berlin Emacs Meetup.
+The 90-minute slideshow (see PDF and tex source file) was presented to the Berlin Emacs Meetup on August 31, 2022.
 
 See [latex-emacs repo](https://github.com/MooersLab/latex-emacs) to get the Emacs configuration used in the slide show.
 
@@ -22,3 +26,15 @@ See [latex-emacs repo](https://github.com/MooersLab/latex-emacs) to get the Emac
 ## Recommended videos on LaTeX
 
 - [LaTeX playlist](https://www.youtube.com/watch?v=Jp0lPj2-DQA&list=PLHXZ9OQGMqxcWWkx2DMnQmj5os2X5ZR73) A series of seven high-energy presentations about LaTeX by the mathematician Dr. Trefor Bazett. He was commissioned by Overleaf to make these videos. He does a great job. I learned about some new packages in his video "My favorite packages ...", and I have been using LaTeX for almost a decade!
+
+## update table
+
+|Version      | Changes                                                                                                                                    | Date                 |
+|:-----------:|:------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------:|
+| Version 0.2 |  Added badges and update table                                                                                                             | 2024 May 3        |
+
+
+
+## Funding sources"
+- NIH: R01 CA242845, R01 AI088011
+- NIH: P30 CA225520 (PI: R. Mannel); P20GM103640 and P30GM145423 (PI: A. West)
