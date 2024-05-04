@@ -27,14 +27,13 @@ See [latex-emacs repo](https://github.com/MooersLab/latex-emacs) to get the Emac
 
 - [LaTeX playlist](https://www.youtube.com/watch?v=Jp0lPj2-DQA&list=PLHXZ9OQGMqxcWWkx2DMnQmj5os2X5ZR73) A series of seven high-energy presentations about LaTeX by the mathematician Dr. Trefor Bazett. He was commissioned by Overleaf to make these videos. He does a great job. I learned about some new packages in his video "My favorite packages ...", and I have been using LaTeX for almost a decade!
 
-## update table
+## Update history
 
 |Version      | Changes                                                                                                                                    | Date                 |
 |:-----------:|:------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------:|
 | Version 0.2 |  Added badges and update table                                                                                                             | 2024 May 3        |
 
 
-
-## Funding sources"
+## Funding
 - NIH: R01 CA242845, R01 AI088011
 - NIH: P30 CA225520 (PI: R. Mannel); P20GM103640 and P30GM145423 (PI: A. West)
